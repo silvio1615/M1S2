@@ -1,62 +1,81 @@
+# Global list that stores all inventory products
 inventory = []
-def agregar_producto():
-    name_producto = input("Ingrese el nombre del producto: ")
 
-    val_cant = True
-    while val_cant:
+def add_product():
+    # Ask the user for the product name
+    product_name = input("Enter the product name: ")
+
+    # --- Quantity validation ---
+    valid_quantity = True
+    while valid_quantity:
         try:
-            quantity = int(input("Ingrese la cantidad: "))
+            quantity = int(input("Enter the quantity: "))
             if quantity < 0:
-                print("Error: ingrese un valor positivo.")
+                print("Error: please enter a positive value.")
             else:
-                val_cant = False
+                valid_quantity = False  # Exit loop if value is valid
         except ValueError:
-            print("Error: ingrese un número entero válido.")
+            print("Error: please enter a valid integer.")
 
-    val_price = True
-    while val_price:
+    # --- Price validation ---
+    valid_price = True
+    while valid_price:
         try:
-            price = float(input("Ingrese el precio: "))
+            price = float(input("Enter the price: "))
             if price < 0:
-                print("Error: ingrese un valor positivo.")
+                print("Error: please enter a positive value.")
             else:
-                val_price = False
+                valid_price = False  # Exit loop if value is valid
         except ValueError:
-            print("Error: ingrese un número válido.")
+            print("Error: please enter a valid number.")
 
+    # Build the product dictionary with its data
     product = {
-         "product":name_producto,
-         "quantity":quantity,
-         "price":price,
-         "total_cost":price * quantity
+        "product": product_name,
+        "quantity": quantity,
+        "price": price,
+        "total_cost": price * quantity  # Total cost = price × quantity
     }
+
+    # Add the product to the global list
     inventory.append(product)
     return product
-def mostrar_inventario():
-    if not inventory                    :
-        print ("no list recorded")
-    else:
-        print("list registred")
-        for product in inventory:
-         print(f"prodict:{product['product']}|quantity:{product['quantity']}|price{product['price']}|total cost:{product['total_cost']}")
-def calcular_estadistica():
-    if not inventory:
-        print ("no list recorded")
-    else:
-        print ("calculate recorded")
-        result = 0
-        total_product=0 
-        for product in inventory:
-            total_product+=1
-            result += product["price"] * product ["quantity"]
-            print("\n--- ESTADÍSTICAS ---")
-            print(f"Cantidad total de productos registrados: {total_product}")
-            print(f"Valor total del inventario: ${result:.2f}")
-def menu():
-    print("\n--- MENÚ ---")
-    print("1.agregar producto")
-    print("2.mostrar inventario")
-    print("3.ver estadistica")
-    print("4.salir")
 
-        
+
+def show_inventory():
+    # Check if the inventory is empty
+    if not inventory:
+        print("No products recorded.")
+    else:
+        print("Registered products:")
+        # Iterate and print each product
+        for product in inventory:
+            print(f"Product: {product['product']} | Quantity: {product['quantity']} | Price: {product['price']} | Total cost: {product['total_cost']}")
+
+
+def calculate_statistics():
+    # Check if the inventory is empty
+    if not inventory:
+        print("No products recorded.")
+    else:
+        print("Calculating statistics...")
+        result = 0        # Accumulator for the total inventory value
+        total_products = 0  # Product counter
+
+        for product in inventory:
+            total_products += 1
+            result += product["price"] * product["quantity"]
+
+        # Print final totals after the loop finishes
+        print("\n--- STATISTICS ---")
+        print(f"Total products registered: {total_products}")
+        print(f"Total inventory value: ${result:.2f}")
+
+
+def menu():
+    # Display the main menu options
+    print("\n--- MENU ---")
+    print("1. Add product")
+    print("2. Show inventory")
+    print("3. View statistics")
+    print("4. Exit")
